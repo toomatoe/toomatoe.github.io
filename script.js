@@ -1,10 +1,12 @@
 document.getElementById('year').textContent = new Date().getFullYear();
-const preview = document.querySelector('.bank-preview');
-const toggle = document.querySelector('.motion-toggle');
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
-if (reducedMotion.matches) toggle.hidden = true;
-toggle.addEventListener('click', () => {
- const paused = preview.classList.toggle('paused');
- toggle.setAttribute('aria-pressed', String(paused));
- toggle.textContent = paused ? 'Play animation' : 'Pause animation';
+document.querySelectorAll('.animated-preview').forEach(preview => {
+ const toggle = preview.querySelector('.motion-toggle');
+ const sync = () => { toggle.hidden = reducedMotion.matches; };
+ sync(); reducedMotion.addEventListener('change', sync);
+ toggle.addEventListener('click', () => {
+  const paused = preview.classList.toggle('paused');
+  toggle.setAttribute('aria-pressed', String(paused));
+  toggle.textContent = paused ? 'Play animation' : 'Pause animation';
+ });
 });
