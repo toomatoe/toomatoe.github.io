@@ -28,7 +28,7 @@ function draw(scene,time){const c=scene.ctx;if(!c)return;const t=reduce.matches?
  }else if(scene.kind==='motion'){
   text(c,'MOTION DETECTION',24,28,'#b8bcff',13);text(c,'FRAME DIFFERENCE / REGIONS',24,51,'#8494aa',10);
   for(let i=0;i<3;i++){let x=45+((t*(i%2?70:110)+i*175)%465),y=100+i*55+12*Math.sin(t*2+i);box(c,x,y,62+i*9,38,'#b8bcff');text(c,'REGION 0'+(i+1),x,y-9,'#c4c8ff',10);for(let trail=1;trail<=5;trail++)box(c,x-trail*13,y+trail*1.2,4,4,'#667293');}
-  line(c,24,274,576,274,'#3d5360');text(c,'FRAME '+String(Math.floor(t*24)%9999).padStart(4,'0'),24,303,'#b8bcff',12);text(c,'MOVEMENT ANALYSIS',387,303,'#a7c0d0',10);
+  line(c,24,274,576,274,'#3d5360');text(c,'REGION TRACKING',24,303,'#b8bcff',12);text(c,'MOVEMENT ANALYSIS',387,303,'#a7c0d0',10);
  }else if(scene.kind==='rag'){
   text(c,'QUERY YOUR DOCUMENTS',24,29,'#a5d9ff',13);const labels=['Documents','Retrieve','Answer'];const active=Math.floor(t)%3;
   for(let i=0;i<3;i++){let x=25+i*195;box(c,x,91,160,78,i===active?'#a5d9ff':'#44647b');text(c,'0'+(i+1),x+14,115,'#8cb8d1',11);text(c,labels[i],x+14,144,'#d0e8f3',14);if(i<2){line(c,x+160,130,x+195,130,'#557c8f');let k=(t*1.1)%1;c.fillStyle='#cdef91';c.beginPath();c.arc(x+160+k*35,130,4,0,Math.PI*2);c.fill();}}
@@ -39,8 +39,10 @@ function draw(scene,time){const c=scene.ctx;if(!c)return;const t=reduce.matches?
   edges.forEach(([a,b],i)=>{const p=points[a],q=points[b];line(c,...p,...q,'#557550',1);let k=(t*.5+i*.17)%1;c.fillStyle='#cdef91';c.beginPath();c.arc(p[0]+(q[0]-p[0])*k,p[1]+(q[1]-p[1])*k,4,0,Math.PI*2);c.fill();});
   points.forEach(([x,y],i)=>{c.beginPath();c.fillStyle='#1d3826';c.arc(x,y,23,0,Math.PI*2);c.fill();c.strokeStyle='#97be74';c.lineWidth=2;c.stroke();text(c,['Q','01','02','03','04','A'][i],x-8,y+5,'#d9efc6',14);});text(c,'INPUT',52,220,'#8ca78f',11);text(c,'PROCESS',262,310,'#8ca78f',11);text(c,'OUTPUT',494,220,'#8ca78f',11);
  }
- const shell=scene.canvas.closest('.screen');shell.querySelector('[data-counter]').textContent=String(Math.floor(t*24)%1000).padStart(3,'0');scene.canvas.dataset.frame=String(Math.floor(t*24));
+ const shell=scene.canvas.closest('.screen');scene.canvas.dataset.frame=String(Math.floor(t*24));
 }
 let origin;
 function animate(now){if(origin===undefined)origin=now;const time=(now-origin)/1000;for(const scene of scenes){if(scene.visible&&!document.hidden)draw(scene,time);}if(scenes.length)requestAnimationFrame(animate);}
 if(scenes.length)requestAnimationFrame(animate);
+
+document.querySelectorAll('[data-back-top]').forEach(button=>button.addEventListener('click',()=>{window.scrollTo({top:0,behavior:reduce.matches?'instant':'smooth'});document.querySelector('.brand').focus({preventScroll:true});}));
