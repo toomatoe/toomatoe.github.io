@@ -29,6 +29,20 @@ function draw(scene,time){const c=scene.ctx;if(!c)return;const t=reduce.matches?
   text(c,'MOTION DETECTION',24,28,'#b8bcff',13);text(c,'FRAME DIFFERENCE / REGIONS',24,51,'#8494aa',10);
   for(let i=0;i<3;i++){let x=45+((t*(i%2?70:110)+i*175)%465),y=100+i*55+12*Math.sin(t*2+i);box(c,x,y,62+i*9,38,'#b8bcff');text(c,'REGION 0'+(i+1),x,y-9,'#c4c8ff',10);for(let trail=1;trail<=5;trail++)box(c,x-trail*13,y+trail*1.2,4,4,'#667293');}
   line(c,24,274,576,274,'#3d5360');text(c,'REGION TRACKING',24,303,'#b8bcff',12);text(c,'MOVEMENT ANALYSIS',387,303,'#a7c0d0',10);
+ }else if(scene.kind==='cadenza'){
+  text(c,'NOW PLAYING',24,28,'#a9d4ff',13);text(c,'WINUI 3 + RUST AUDIO ENGINE',24,51,'#7f9bb3',10);
+  const cx=120,cy=178,spin=t*1.6;
+  c.fillStyle='#2b5f8f';c.fillRect(cx-82,cy-82,164,164);c.strokeStyle='#a9d4ff66';c.lineWidth=1;c.strokeRect(cx-82,cy-82,164,164);
+  c.beginPath();c.arc(cx,cy,66,0,Math.PI*2);c.fillStyle='#0d1a26';c.fill();
+  for(let r=58;r>26;r-=8){c.beginPath();c.arc(cx,cy,r,0,Math.PI*2);c.strokeStyle='#ffffff14';c.stroke();}
+  c.beginPath();c.arc(cx,cy,62,spin,spin+0.9);c.strokeStyle='#a9d4ff88';c.lineWidth=3;c.stroke();
+  c.beginPath();c.arc(cx,cy,62,spin+Math.PI,spin+Math.PI+0.5);c.strokeStyle='#a9d4ff44';c.stroke();
+  c.beginPath();c.arc(cx,cy,20,0,Math.PI*2);c.fillStyle='#ddf0ff';c.fill();c.beginPath();c.arc(cx,cy,4,0,Math.PI*2);c.fillStyle='#0d1a26';c.fill();
+  text(c,'Afterglow',232,108,'#e4f2ff',17);text(c,'Kiko Navarro',232,130,'#7f9bb3',11);
+  for(let i=0;i<14;i++){const h=8+26*Math.abs(Math.sin(t*3.1+i*0.7)*Math.cos(t*1.3+i*0.31));c.fillStyle=i%3?'#4f8fc8':'#a9d4ff';c.fillRect(232+i*13,186-h,8,h);}
+  const p=(t*0.08)%1;line(c,232,206,566,206,'#2c4459',4);line(c,232,206,232+334*p,206,'#a9d4ff',4);c.beginPath();c.arc(232+334*p,206,6,0,Math.PI*2);c.fillStyle='#e4f2ff';c.fill();
+  text(c,'UP NEXT',232,240,'#7f9bb3',10);['Paper Satellites','Velvet Hours','North of Quiet'].forEach((name,i)=>{c.fillStyle=['#285f93','#3d82bf','#22567f'][i];c.fillRect(232,252+i*24,16,16);text(c,name,258,264+i*24,i===0?'#cfe7ff':'#93abc0',11);});
+  text(c,'QUEUE / SHUFFLE WITH SPACING',380,310,'#a9d4ff',10);
  }else if(scene.kind==='rag'){
   text(c,'QUERY YOUR DOCUMENTS',24,29,'#a5d9ff',13);const labels=['Documents','Retrieve','Answer'];const active=Math.floor(t)%3;
   for(let i=0;i<3;i++){let x=25+i*195;box(c,x,91,160,78,i===active?'#a5d9ff':'#44647b');text(c,'0'+(i+1),x+14,115,'#8cb8d1',11);text(c,labels[i],x+14,144,'#d0e8f3',14);if(i<2){line(c,x+160,130,x+195,130,'#557c8f');let k=(t*1.1)%1;c.fillStyle='#cdef91';c.beginPath();c.arc(x+160+k*35,130,4,0,Math.PI*2);c.fill();}}
