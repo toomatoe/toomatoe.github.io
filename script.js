@@ -43,6 +43,18 @@ function draw(scene,time){const c=scene.ctx;if(!c)return;const t=reduce.matches?
   const p=(t*0.08)%1;line(c,232,206,566,206,'#2c4459',4);line(c,232,206,232+334*p,206,'#a9d4ff',4);c.beginPath();c.arc(232+334*p,206,6,0,Math.PI*2);c.fillStyle='#e4f2ff';c.fill();
   text(c,'UP NEXT',232,240,'#7f9bb3',10);['Paper Satellites','Velvet Hours','North of Quiet'].forEach((name,i)=>{c.fillStyle=['#285f93','#3d82bf','#22567f'][i];c.fillRect(232,252+i*24,16,16);text(c,name,258,264+i*24,i===0?'#cfe7ff':'#93abc0',11);});
   text(c,'QUEUE / SHUFFLE WITH SPACING',380,310,'#a9d4ff',10);
+ }else if(scene.kind==='quant'){
+  text(c,'EVENT STUDY / SMALL CAPS',24,28,'#cdef91',13);text(c,'SEC FILING -> EXCESS RETURN, DAYS 0-20',24,51,'#779780',10);
+  const x0=40,x1=380,y0=180,sx=(x1-x0)/20,sy=26;line(c,x0,y0,x1,y0,'#3d5360');line(c,x0,78,x0,286,'#3d5360');
+  for(let d=0;d<=20;d+=5){line(c,x0+d*sx,y0-3,x0+d*sx,y0+3,'#557c8f');text(c,'D'+d,x0+d*sx-8,300,'#779780',9);}
+  const reveal=Math.min(20,(t*4)%26);
+  const series=[{f:d=>1.66*Math.min(d,5)/5+0.04*Math.max(0,d-5),col:'#cdef91',label:'INSIDER CLUSTER BUYS'},{f:d=>-3.8*(1-Math.exp(-d/7)),col:'#f2a48d',label:'NANO-CAP OFFERINGS'}];
+  series.forEach((s,k)=>{c.beginPath();for(let d=0;d<=reveal;d+=0.25){const x=x0+d*sx,y=y0-s.f(d)*sy;d?c.lineTo(x,y):c.moveTo(x,y);}c.strokeStyle=s.col;c.lineWidth=3;c.stroke();
+   const band=0.35+0.03*reveal;c.fillStyle=s.col+'14';c.fillRect(x0+reveal*sx-4,y0-(s.f(reveal)+band)*sy,8,band*2*sy);
+   c.beginPath();c.arc(x0+reveal*sx,y0-s.f(reveal)*sy,4,0,Math.PI*2);c.fillStyle=s.col;c.fill();text(c,s.label,x0+8,k?272:92,s.col,10);});
+  text(c,'FILINGS',410,86,'#a5bdac',10);const feed=['FORM 4  P  $48K','424B5  OFFERING','8-K  ITEM 3.02','FORM 4  P  $120K','S-3  SHELF','8-K  ITEM 1.01','13D  STAKE'];
+  for(let i=0;i<6;i++){const j=(Math.floor(t*0.9)+i)%feed.length,y=104+i*28,on=i===0;box(c,408,y,168,22,on?'#cdef91':'#44647b');text(c,feed[j],416,y+15,on?'#e9f5e8':'#8cb8d1',10);}
+  text(c,'PRE-REGISTERED / CLUSTERED T',380,322,'#cdef91',9);
  }else if(scene.kind==='rag'){
   text(c,'QUERY YOUR DOCUMENTS',24,29,'#a5d9ff',13);const labels=['Documents','Retrieve','Answer'];const active=Math.floor(t)%3;
   for(let i=0;i<3;i++){let x=25+i*195;box(c,x,91,160,78,i===active?'#a5d9ff':'#44647b');text(c,'0'+(i+1),x+14,115,'#8cb8d1',11);text(c,labels[i],x+14,144,'#d0e8f3',14);if(i<2){line(c,x+160,130,x+195,130,'#557c8f');let k=(t*1.1)%1;c.fillStyle='#cdef91';c.beginPath();c.arc(x+160+k*35,130,4,0,Math.PI*2);c.fill();}}
